@@ -102,10 +102,6 @@
     {
         TWTweetComposeViewController *tweetSheet = [[TWTweetComposeViewController alloc] init];
         
-        tweetSheet.completionHandler = ^(TWTweetComposeViewControllerResult result) {
-            [[TiApp app] hideModalController:tweetSheet animated:YES];
-        };
-        
         NSString *url = [args objectForKey:@"url"];
         NSString *message = [args objectForKey:@"message"];
         
@@ -116,6 +112,11 @@
         if (url != nil) {
             [tweetSheet addURL:[TiUtils toURL:url proxy:nil]];
         }
+        
+        tweetSheet.completionHandler = ^(TWTweetComposeViewControllerResult result) {
+            [[TiApp app] hideModalController:tweetSheet animated:YES];
+            [tweetSheet release];
+        };
         
         [[TiApp app] showModalController:tweetSheet animated:YES];
     }
